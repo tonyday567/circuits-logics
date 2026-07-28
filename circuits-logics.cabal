@@ -1,0 +1,71 @@
+cabal-version: 3.0
+name: circuits-logics
+version: 0.1.0.0
+license: BSD-3-Clause
+license-file: LICENSE
+copyright: Tony Day (c) 2026
+category: math, logic
+author: Tony Day
+maintainer: tonyday567@gmail.com
+homepage: https://github.com/tonyday567/circuits-logics#readme
+bug-reports: https://github.com/tonyday567/circuits-logics/issues
+synopsis: Multi-valued and Heyting logics as circuit compile targets
+description:
+  Value-level logics (classical propositional, Heyting, Gödel fuzzy, H3, K3,
+  Boolean-as-ring) for use as payloads and bases alongside @circuits@.
+  Not part of the core substrate: an alternative thing to compile to, in the
+  same column as @FinRel@ and @Process@.
+
+build-type: Simple
+tested-with:
+  ghc ==9.14.1
+
+extra-doc-files:
+  ChangeLog.md
+  readme.md
+
+source-repository head
+  type: git
+  location: https://github.com/tonyday567/circuits-logics
+
+common ghc-options-stanza
+  ghc-options:
+    -Wall
+    -Wno-unused-imports
+    -Wcompat
+    -Widentities
+    -Wincomplete-record-updates
+    -Wincomplete-uni-patterns
+    -Wpartial-fields
+    -Wredundant-constraints
+
+library
+  import: ghc-options-stanza
+  default-language: GHC2024
+  hs-source-dirs: src
+  exposed-modules:
+    Circuit.Logics
+    Circuit.Logics.Boolean
+    Circuit.Logics.Boolean2Ring
+    Circuit.Logics.Combine
+    Circuit.Logics.Goedel
+    Circuit.Logics.H3
+    Circuit.Logics.Heyting
+    Circuit.Logics.K3
+    Circuit.Logics.Lattice
+    Circuit.Logics.Laws
+    Circuit.Logics.Process
+    Circuit.Logics.Prop
+  build-depends:
+    base >=4.18 && <5,
+    circuits >=0.3 && <0.4,
+
+executable circuits-logics-verify
+  import: ghc-options-stanza
+  default-language: GHC2024
+  hs-source-dirs: app
+  main-is: verify.hs
+  build-depends:
+    base >=4.18 && <5,
+    circuits,
+    circuits-logics,
