@@ -60,11 +60,11 @@ library
     base >=4.18 && <5,
     circuits >=0.3 && <0.4,
 
-executable circuits-logics-verify
+executable circuits-logics-axioma
   import: ghc-options-stanza
   default-language: GHC2024
   hs-source-dirs: app
-  main-is: verify.hs
+  main-is: axioma.hs
   build-depends:
     base >=4.18 && <5,
     circuits,
