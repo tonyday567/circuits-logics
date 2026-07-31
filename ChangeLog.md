@@ -1,4 +1,4 @@
-# ChangeLog for circuits-logics
+# ChangeLog for manyvalued
 
 ## 0.1.0.0 — 2026-07-28
 
@@ -6,4 +6,4 @@
 - Carriers: Bool, Prop AST, H3, K3, Goedel, Boolean2Ring.
 - Combine protocols: consensus, firstKnown, latch.
 - Process judges: voteH3, voteLatchH3, consensusProc, latchProc, ewmaGoedel.
-- Named law suites + `circuits-logics-verify`.
+- Named law suites + `manyvalued-axioma`.

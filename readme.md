@@ -1,12 +1,12 @@
-# circuits-logics
+# manyvalued
 
-Multi-valued and Heyting logics as **circuit compile targets** — value-level
-truth systems that sit in the same column as `FinRel` and `Process`, not in
-the substrate core package list.
+Many-valued and Heyting logics as **semantic carriers** — value-level truth
+systems that sit in the same column as `FinRel` and `Process`, not in the
+substrate core package list.
 
 ```bash
-cd ~/haskell/circuits-logics
-cabal run circuits-logics-verify
+cd ~/haskell/manyvalued
+cabal run manyvalued-axioma
 ```
 
 ## What this is
@@ -23,17 +23,18 @@ cabal run circuits-logics-verify
 ## Role relative to circuits
 
 ```text
-  syntax (Free / Loop / Net / Algebra)
+  syntax (Free / Loop / Net / Algebra / string-diagrams)
               │
               ▼ compile / interpret
      ┌────────┼────────┬─────────────┐
      ▼        ▼        ▼             ▼
-   (->)   Process   FinRel    logics payloads
+   (->)   Process   FinRel    manyvalued payloads
                               (H3, Goedel, …)
 ```
 
-Logics are **payloads and judgment alphabets**. Wiring structure still comes
-from circuits; whether a wire carries `Double` or `H3` is this package.
+Many-valued carriers are **payloads and judgment alphabets**. Wiring structure
+still comes from `circuits`; whether a wire carries `Double` or `H3` is this
+package.
 
 ## numhask guess
 
@@ -43,8 +44,8 @@ numhask already has order lattices. A plausible future:
 2. **If Heyting consolidates** — lift a thin class into numhask (or
    `numhask-logic`) with the same laws; instances for `Bool` and maybe
    unit-interval degrees.
-3. **Leave specialty carriers** (`H3`, `K3`, process judges) in
-   `circuits-logics` as the circuit-facing laboratory.
+3. **Leave specialty carriers** (`H3`, `K3`, process judges) in `manyvalued`
+   as the circuit-facing laboratory.
 4. **`Boolean2Ring`** migrates only if the ring tower wants an explicit
    Boolean bridge.
 

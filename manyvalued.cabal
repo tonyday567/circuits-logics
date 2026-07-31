@@ -1,5 +1,5 @@
 cabal-version: 3.0
-name: circuits-logics
+name: manyvalued
 version: 0.1.0.0
 license: BSD-3-Clause
 license-file: LICENSE
@@ -7,14 +7,15 @@ copyright: Tony Day (c) 2026
 category: math, logic
 author: Tony Day
 maintainer: tonyday567@gmail.com
-homepage: https://github.com/tonyday567/circuits-logics#readme
-bug-reports: https://github.com/tonyday567/circuits-logics/issues
-synopsis: Multi-valued and Heyting logics as circuit compile targets
+homepage: https://github.com/tonyday567/manyvalued#readme
+bug-reports: https://github.com/tonyday567/manyvalued/issues
+synopsis: Many-valued and Heyting logics as semantic carriers
 description:
   Value-level logics (classical propositional, Heyting, Gödel fuzzy, H3, K3,
-  Boolean-as-ring) for use as payloads and bases alongside @circuits@.
-  Not part of the core substrate: an alternative thing to compile to, in the
-  same column as @FinRel@ and @Process@.
+  Boolean-as-ring) as algebraic semantic carriers.  Intended for use as
+  payloads and bases alongside @circuits@, but not part of the core substrate:
+  an alternative thing to compile to, in the same column as @FinRel@ and
+  @Process@.
 
 build-type: Simple
 tested-with:
@@ -26,7 +27,7 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/tonyday567/circuits-logics
+  location: https://github.com/tonyday567/manyvalued
 
 common ghc-options-stanza
   ghc-options:
@@ -60,7 +61,7 @@ library
     base >=4.18 && <5,
     circuits >=0.3 && <0.4,
 
-executable circuits-logics-axioma
+executable manyvalued-axioma
   import: ghc-options-stanza
   default-language: GHC2024
   hs-source-dirs: app
@@ -68,4 +69,4 @@ executable circuits-logics-axioma
   build-depends:
     base >=4.18 && <5,
     circuits,
-    circuits-logics,
+    manyvalued,

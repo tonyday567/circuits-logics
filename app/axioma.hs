@@ -1,4 +1,4 @@
--- | Value-level oracles for circuits-logics carriers and processes.
+-- | Value-level oracles for manyvalued carriers and processes.
 module Main where
 
 import Circuit.Logics
@@ -12,7 +12,7 @@ check name ok = do
 
 main :: IO ()
 main = do
-  putStrLn "circuits-logics-verify"
+  putStrLn "manyvalued-axioma"
   results <-
     sequence
       [ -- Bool is Boolean
