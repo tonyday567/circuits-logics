@@ -57,9 +57,10 @@ library
     Circuit.Logics.Laws
     Circuit.Logics.Process
     Circuit.Logics.Prop
+
   build-depends:
     base >=4.18 && <5,
-    circuits >=0.3 && <0.4,
+    circuits >=0.3 && <0.5,
 
 executable manyvalued-axioma
   import: ghc-options-stanza
