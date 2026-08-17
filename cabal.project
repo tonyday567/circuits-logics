@@ -1,5 +1,3 @@
-packages:
-  manyvalued.cabal
-  ../circuits/circuits.cabal
+packages: manyvalued.cabal
 
 write-ghc-environment-files: always
