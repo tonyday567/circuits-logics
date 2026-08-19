@@ -10,4 +10,3 @@ cabal.sandbox.config
 .stack-work/
 *~
 .DS_Store
-/cabal.project.local*

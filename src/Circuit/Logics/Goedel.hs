@@ -34,17 +34,14 @@ mkGoedel r = Goedel (max 0 (min 1 r))
 unGoedel :: Goedel r -> r
 unGoedel (Goedel r) = r
 
--- | Default carrier: rational degrees in @[0,1]@.
-type Godei = Goedel Rational
-
 -- | Alias matching common spelling in the literature.
 godei :: Rational -> Goedel Rational
 godei = mkGoedel
 
-instance (Ord r, Num r) => JoinSemiLattice (Goedel r) where
+instance (Ord r) => JoinSemiLattice (Goedel r) where
   Goedel a \/ Goedel b = Goedel (max a b)
 
-instance (Ord r, Num r) => MeetSemiLattice (Goedel r) where
+instance (Ord r) => MeetSemiLattice (Goedel r) where
   Goedel a /\ Goedel b = Goedel (min a b)
 
 instance (Ord r, Num r) => LowerBounded (Goedel r) where

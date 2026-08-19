@@ -22,16 +22,15 @@ newtype Boolean2Ring b = Boolean2Ring {getBoolean2Ring :: b}
   deriving (Eq, Ord, Show, Read)
 
 -- | XOR on a complemented meet-semilattice with bounds.
-xorBool :: (Eq b, MeetSemiLattice b, Complemented b, LowerBounded b, UpperBounded b) => b -> b -> b
+xorBool :: (Complemented b) => b -> b -> b
 xorBool a b =
-  let both = a /\ b
-      either' = (a /\ complement b) `joinLike` (complement a /\ b)
+  let either' = (a /\ complement b) `joinLike` (complement a /\ b)
    in either'
   where
     -- local join via De Morgan when we only have meet+complement+bounds
     joinLike x y = complement (complement x /\ complement y)
 
-instance (Eq b, MeetSemiLattice b, Complemented b, LowerBounded b, UpperBounded b) => Num (Boolean2Ring b) where
+instance (MeetSemiLattice b, Complemented b, LowerBounded b, UpperBounded b) => Num (Boolean2Ring b) where
   Boolean2Ring a + Boolean2Ring b = Boolean2Ring (xorBool a b)
   Boolean2Ring a * Boolean2Ring b = Boolean2Ring (a /\ b)
   negate = id

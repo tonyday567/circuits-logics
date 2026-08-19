@@ -66,25 +66,25 @@ law_absorption_join a b = a \/ (a /\ b) == a
 law_absorption_meet :: (JoinSemiLattice a, MeetSemiLattice a) => a -> a -> Bool
 law_absorption_meet a b = a /\ (a \/ b) == a
 
-law_heyting_refl :: (Eq a, Heyting a) => a -> Bool
+law_heyting_refl :: (Heyting a) => a -> Bool
 law_heyting_refl a = (a ==> a) == top
 
-law_heyting_mp_left :: (Eq a, Heyting a) => a -> a -> Bool
+law_heyting_mp_left :: (Heyting a) => a -> a -> Bool
 law_heyting_mp_left a b = (a /\ (a ==> b)) == (a /\ b)
 
-law_heyting_mp_right :: (Eq a, Heyting a) => a -> a -> Bool
+law_heyting_mp_right :: (Heyting a) => a -> a -> Bool
 law_heyting_mp_right a b = (b /\ (a ==> b)) == b
 
-law_heyting_distr :: (Eq a, Heyting a) => a -> a -> a -> Bool
+law_heyting_distr :: (Heyting a) => a -> a -> a -> Bool
 law_heyting_distr a b c = (a ==> (b /\ c)) == ((a ==> b) /\ (a ==> c))
 
-law_excluded_middle :: (Eq a, JoinSemiLattice a, Complemented a, UpperBounded a) => a -> Bool
+law_excluded_middle :: (Complemented a) => a -> Bool
 law_excluded_middle a = (a \/ complement a) == top
 
-law_noncontradiction :: (Eq a, MeetSemiLattice a, Complemented a, LowerBounded a) => a -> Bool
+law_noncontradiction :: (Complemented a) => a -> Bool
 law_noncontradiction a = (a /\ complement a) == bottom
 
-law_double_negation :: (Eq a, Complemented a) => a -> Bool
+law_double_negation :: (Complemented a) => a -> Bool
 law_double_negation a = complement (complement a) == a
 
 -- | All lattice laws on a triple of samples.
@@ -114,8 +114,6 @@ heytingSuite a b c =
 booleanSuite :: (Heyting a, Complemented a) => a -> a -> a -> Bool
 booleanSuite a b c =
   heytingSuite a b c
-    && and
-      [ law_excluded_middle a,
-        law_noncontradiction a,
-        law_double_negation a
-      ]
+    && law_excluded_middle a
+    && law_noncontradiction a
+    && law_double_negation a
