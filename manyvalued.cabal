@@ -59,8 +59,8 @@ library
     Circuit.Logics.Prop
 
   build-depends:
-    base >=4.18 && <5,
-    circuits >=0.3 && <0.5,
+    base >=4.20 && <5,
+    circuits >=0.3 && <0.4,
 
 executable manyvalued-axioma
   import: ghc-options-stanza
@@ -68,6 +68,6 @@ executable manyvalued-axioma
   hs-source-dirs: app
   main-is: axioma.hs
   build-depends:
-    base >=4.18 && <5,
+    base >=4.20 && <5,
     circuits,
     manyvalued,
