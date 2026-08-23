@@ -10,3 +10,5 @@ cabal.sandbox.config
 .stack-work/
 *~
 .DS_Store
+*.ghc.environment.*
+cabal.project.local
