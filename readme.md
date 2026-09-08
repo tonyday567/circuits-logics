@@ -1,4 +1,4 @@
-# manyvalued
+# circuits-logics
 
 Many-valued and Heyting logics as **semantic carriers** — value-level truth
 systems that sit in the same column as `FinRel` and `Process`, not in the

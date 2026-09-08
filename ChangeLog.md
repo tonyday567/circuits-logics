@@ -1,4 +1,4 @@
-# ChangeLog for manyvalued
+# ChangeLog for circuits-logics
 
 ## 0.1.0.0 — 2026-07-28
 

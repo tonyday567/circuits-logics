@@ -1,5 +1,5 @@
 cabal-version: 3.0
-name: manyvalued
+name: circuits-logics
 version: 0.1.0.0
 license: BSD-3-Clause
 license-file: LICENSE
@@ -7,8 +7,8 @@ copyright: Tony Day (c) 2026
 category: math, logic
 author: Tony Day
 maintainer: tonyday567@gmail.com
-homepage: https://github.com/tonyday567/manyvalued#readme
-bug-reports: https://github.com/tonyday567/manyvalued/issues
+homepage: https://github.com/tonyday567/circuits-logics#readme
+bug-reports: https://github.com/tonyday567/circuits-logics/issues
 synopsis: Many-valued and Heyting logics as semantic carriers
 description:
   Value-level logics (classical propositional, Heyting, Gödel fuzzy, H3, K3,
@@ -29,7 +29,7 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/tonyday567/manyvalued
+  location: https://github.com/tonyday567/circuits-logics
 
 common ghc-options-stanza
   ghc-options:
@@ -64,7 +64,7 @@ library
     base >=4.20 && <5,
     circuits >=0.3 && <0.4,
 
-executable manyvalued-axioma
+executable circuits-logics-axioma
   import: ghc-options-stanza
   default-language: GHC2024
   hs-source-dirs: app
@@ -72,4 +72,4 @@ executable manyvalued-axioma
   build-depends:
     base >=4.20 && <5,
     circuits,
-    manyvalued,
+    circuits-logics,

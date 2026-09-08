@@ -1,5 +1,5 @@
 packages:
-  manyvalued.cabal
+  circuits-logics.cabal
 
 source-repository-package
   type: git

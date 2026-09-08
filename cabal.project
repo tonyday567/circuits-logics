@@ -1,4 +1,4 @@
 packages:
-  manyvalued.cabal
+  circuits-logics.cabal
 
 write-ghc-environment-files: always

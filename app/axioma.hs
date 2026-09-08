@@ -12,7 +12,7 @@ check name ok = do
 
 main :: IO ()
 main = do
-  putStrLn "manyvalued-axioma"
+  putStrLn "circuits-logics-axioma"
   results <-
     sequence
       [ -- Bool is Boolean
