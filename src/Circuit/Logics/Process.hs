@@ -1,9 +1,11 @@
+{-# LANGUAGE PatternSynonyms #-}
+
 -- | Judgment processes: streaming machines that emit multi-valued logic.
 --
 -- @Moore obs H3@ is the flagship shape — Moore machines whose timeline
 -- is a sequence of epistemic verdicts. This module is a compile target for
 -- agent/sensor/parser-style \"are we decided yet?\" stories on top of
--- @Circuit.Process@.
+-- @Circuit.Cell@.
 module Circuit.Logics.Process
   ( -- * Threshold judges
     voteH3,
@@ -18,10 +20,10 @@ module Circuit.Logics.Process
   )
 where
 
+import Circuit.Cell (Moore, pattern Moore)
 import Circuit.Logics.Combine (consensusH3, latchH3)
 import Circuit.Logics.Goedel (Goedel (..), mkGoedel)
 import Circuit.Logics.H3 (H3 (..))
-import Circuit.Process (Moore (..))
 
 -- | Majority-style judge on @Bool@ votes.
 --

@@ -1,8 +1,8 @@
 -- | Value-level oracles for manyvalued carriers and processes.
 module Main where
 
+import Circuit.Cell (scan)
 import Circuit.Logics
-import Circuit.Process (scan)
 import Data.Ratio ((%))
 
 check :: String -> Bool -> IO Bool
