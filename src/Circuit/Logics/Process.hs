@@ -5,7 +5,7 @@
 -- @Moore obs H3@ is the flagship shape — Moore machines whose timeline
 -- is a sequence of epistemic verdicts. This module is a compile target for
 -- agent/sensor/parser-style \"are we decided yet?\" stories on top of
--- @Circuit.Cell@.
+-- @Circuit.GMachine@.
 module Circuit.Logics.Process
   ( -- * Threshold judges
     voteH3,
