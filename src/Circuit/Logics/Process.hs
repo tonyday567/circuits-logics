@@ -20,7 +20,7 @@ module Circuit.Logics.Process
   )
 where
 
-import Circuit.Cell (Moore, pattern Moore)
+import Circuit.GMachine (Moore, pattern Moore)
 import Circuit.Logics.Combine (consensusH3, latchH3)
 import Circuit.Logics.Goedel (Goedel (..), mkGoedel)
 import Circuit.Logics.H3 (H3 (..))

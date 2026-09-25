@@ -1,7 +1,7 @@
 -- | Value-level oracles for manyvalued carriers and processes.
 module Main where
 
-import Circuit.Cell (scan)
+import Circuit.GMachine (scan)
 import Circuit.Logics
 import Data.Ratio ((%))
 
