@@ -1,5 +1,3 @@
-{-# LANGUAGE PatternSynonyms #-}
-
 -- | Judgment processes: streaming machines that emit multi-valued logic.
 --
 -- @Moore obs H3@ is the flagship shape — Moore machines whose timeline
@@ -20,7 +18,7 @@ module Circuit.Logics.Process
   )
 where
 
-import Circuit.GMachine (Moore, pattern Moore)
+import Circuit.GMachine (Cell (..), GMoore (..), GMooreT (..), Moore, moore)
 import Circuit.Logics.Combine (consensusH3, latchH3)
 import Circuit.Logics.Goedel (Goedel (..), mkGoedel)
 import Circuit.Logics.H3 (H3 (..))
@@ -31,7 +29,7 @@ import Circuit.Logics.H3 (H3 (..))
 -- otherwise @HUnknown@. Verdicts are revisable if the other side catches up
 -- (no latch).
 voteH3 :: Int -> Moore Bool H3
-voteH3 k = Moore inject step extract
+voteH3 k = moore inject step extract
   where
     inject b = step (0, 0) b
     step (y, n) True = (y + 1, n)
@@ -43,7 +41,7 @@ voteH3 k = Moore inject step extract
 
 -- | Like 'voteH3' but freezes the first decided verdict.
 voteLatchH3 :: Int -> Moore Bool H3
-voteLatchH3 k = Moore inject step extract
+voteLatchH3 k = moore inject step extract
   where
     inject b =
       case extractOpen (stepOpen (0, 0) b) of
@@ -68,20 +66,20 @@ voteLatchH3 k = Moore inject step extract
 --
 -- State is a pair of sub-states; extract is 'consensusH3'.
 consensusProc :: Moore a H3 -> Moore a H3 -> Moore a H3
-consensusProc (Moore i1 st1 ex1) (Moore i2 st2 ex2) =
-  Moore
+consensusProc (GMooreT (GMoore i1 (Cell k1 o1))) (GMooreT (GMoore i2 (Cell k2 o2))) =
+  moore
     (\a -> (i1 a, i2 a))
-    (\(s1, s2) a -> (st1 s1 a, st2 s2 a))
-    (\(s1, s2) -> consensusH3 (ex1 s1) (ex2 s2))
+    (\(s1, s2) a -> (k1 (s1, a), k2 (s2, a)))
+    (\(s1, s2) -> consensusH3 (o1 s1) (o2 s2))
 
 -- | Running latch over an H3-producing process.
 latchProc :: Moore a H3 -> Moore a H3
-latchProc (Moore i st ex) =
-  Moore
-    (\a -> let s0 = i a in (s0, ex s0))
+latchProc (GMooreT (GMoore i (Cell k o))) =
+  moore
+    (\a -> let s0 = i a in (s0, o s0))
     ( \(s, v) a ->
-        let s' = st s a
-            v' = latchH3 v (ex s')
+        let s' = k (s, a)
+            v' = latchH3 v (o s')
          in (s', v')
     )
     snd
@@ -90,7 +88,7 @@ latchProc (Moore i st ex) =
 --
 -- @ewmaGoedel alpha@ uses smoothing factor @alpha ∈ (0,1]@.
 ewmaGoedel :: Double -> Moore Double (Goedel Double)
-ewmaGoedel alpha = Moore inject step extract
+ewmaGoedel alpha = moore inject step extract
   where
     inject x = clamp x
     step s x = (1 - alpha) * s + alpha * clamp x
