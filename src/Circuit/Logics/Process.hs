@@ -10,7 +10,6 @@ module Circuit.Logics.Process
     voteLatchH3,
 
     -- * Combinators on H3 streams
-    consensusProc,
     latchProc,
 
     -- * Gödel degree process
@@ -18,7 +17,7 @@ module Circuit.Logics.Process
   )
 where
 
-import Circuit.Logics.Combine (consensusH3, latchH3)
+import Circuit.Logics.Combine (latchH3)
 import Circuit.Logics.Goedel (Goedel (..), mkGoedel)
 import Circuit.Logics.H3 (H3 (..))
 import Circuit.Machine (Body (..), MooreT (..), moore)
@@ -62,16 +61,6 @@ voteLatchH3 k = moore inject step extract
       | y >= k && y > n = HTrue
       | n >= k && n > y = HFalse
       | otherwise = HUnknown
-
--- | Pointwise consensus of two H3 streams (same observation).
---
--- State is a pair of sub-states; extract is 'consensusH3'.
-consensusProc :: MooreT (,) (->) a H3 -> MooreT (,) (->) a H3 -> MooreT (,) (->) a H3
-consensusProc (MooreT (Body i1 k1 o1)) (MooreT (Body i2 k2 o2)) =
-  moore
-    (\a -> (i1 a, i2 a))
-    (\(s1, s2) a -> (k1 (s1, a), k2 (s2, a)))
-    (\(s1, s2) -> consensusH3 (unConst (o1 s1)) (unConst (o2 s2)))
 
 -- | Running latch over an H3-producing process.
 latchProc :: MooreT (,) (->) a H3 -> MooreT (,) (->) a H3
