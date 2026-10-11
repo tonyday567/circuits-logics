@@ -3,7 +3,7 @@
 -- @Moore obs H3@ is the flagship shape — Moore machines whose timeline
 -- is a sequence of epistemic verdicts. This module is a compile target for
 -- agent/sensor/parser-style \"are we decided yet?\" stories on top of
--- @Circuit.GMachine@.
+-- @Circuit.Machine@.
 module Circuit.Logics.Process
   ( -- * Threshold judges
     voteH3,
@@ -18,17 +18,18 @@ module Circuit.Logics.Process
   )
 where
 
-import Circuit.GMachine (Cell (..), GMoore (..), GMooreT (..), Moore, moore)
 import Circuit.Logics.Combine (consensusH3, latchH3)
 import Circuit.Logics.Goedel (Goedel (..), mkGoedel)
 import Circuit.Logics.H3 (H3 (..))
+import Circuit.Machine (Body (..), MooreT (..), moore)
+import Circuit.Tensor (unConst)
 
 -- | Majority-style judge on @Bool@ votes.
 --
 -- Emits @HTrue@ / @HFalse@ once one side reaches threshold @k@ and leads;
 -- otherwise @HUnknown@. Verdicts are revisable if the other side catches up
 -- (no latch).
-voteH3 :: Int -> Moore Bool H3
+voteH3 :: Int -> MooreT (,) (->) Bool H3
 voteH3 k = moore inject step extract
   where
     inject b = step (0, 0) b
@@ -40,7 +41,7 @@ voteH3 k = moore inject step extract
       | otherwise = HUnknown
 
 -- | Like 'voteH3' but freezes the first decided verdict.
-voteLatchH3 :: Int -> Moore Bool H3
+voteLatchH3 :: Int -> MooreT (,) (->) Bool H3
 voteLatchH3 k = moore inject step extract
   where
     inject b =
@@ -65,21 +66,21 @@ voteLatchH3 k = moore inject step extract
 -- | Pointwise consensus of two H3 streams (same observation).
 --
 -- State is a pair of sub-states; extract is 'consensusH3'.
-consensusProc :: Moore a H3 -> Moore a H3 -> Moore a H3
-consensusProc (GMooreT (GMoore i1 (Cell k1 o1))) (GMooreT (GMoore i2 (Cell k2 o2))) =
+consensusProc :: MooreT (,) (->) a H3 -> MooreT (,) (->) a H3 -> MooreT (,) (->) a H3
+consensusProc (MooreT (Body i1 k1 o1)) (MooreT (Body i2 k2 o2)) =
   moore
     (\a -> (i1 a, i2 a))
     (\(s1, s2) a -> (k1 (s1, a), k2 (s2, a)))
-    (\(s1, s2) -> consensusH3 (o1 s1) (o2 s2))
+    (\(s1, s2) -> consensusH3 (unConst (o1 s1)) (unConst (o2 s2)))
 
 -- | Running latch over an H3-producing process.
-latchProc :: Moore a H3 -> Moore a H3
-latchProc (GMooreT (GMoore i (Cell k o))) =
+latchProc :: MooreT (,) (->) a H3 -> MooreT (,) (->) a H3
+latchProc (MooreT (Body i k o)) =
   moore
-    (\a -> let s0 = i a in (s0, o s0))
+    (\a -> let s0 = i a in (s0, unConst (o s0)))
     ( \(s, v) a ->
         let s' = k (s, a)
-            v' = latchH3 v (o s')
+            v' = latchH3 v (unConst (o s'))
          in (s', v')
     )
     snd
@@ -87,7 +88,7 @@ latchProc (GMooreT (GMoore i (Cell k o))) =
 -- | Exponentially weighted moving average of @[0,1]@ samples as Gödel degrees.
 --
 -- @ewmaGoedel alpha@ uses smoothing factor @alpha ∈ (0,1]@.
-ewmaGoedel :: Double -> Moore Double (Goedel Double)
+ewmaGoedel :: Double -> MooreT (,) (->) Double (Goedel Double)
 ewmaGoedel alpha = moore inject step extract
   where
     inject x = clamp x
