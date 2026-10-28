@@ -1,6 +1,7 @@
 -- | Value-level oracles for manyvalued carriers and processes.
 module Main where
 
+import Axioma.Cnf (cnfChecks)
 import Circuit.Logics
 import Circuit.Machine (scan)
 import Data.Ratio ((%))
@@ -65,7 +66,8 @@ main = do
           let ys = scan (ewmaGoedel 0.5) [0, 1, 1, 0]
            in all (\(Goedel r) -> r >= 0 && r <= 1) ys
       ]
-  if and results
+  cnfResults <- mapM (uncurry check) cnfChecks
+  if and (results ++ cnfResults)
     then putStrLn "\nAll tests passed."
     else error "Some tests failed."
   where

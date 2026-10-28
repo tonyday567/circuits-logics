@@ -43,6 +43,7 @@ module Circuit.Logics
     module Circuit.Logics.K3,
     module Circuit.Logics.Goedel,
     module Circuit.Logics.Boolean2Ring,
+    module Circuit.Logics.Cnf,
     module Circuit.Logics.Prop,
 
     -- * Merge protocols
@@ -58,6 +59,7 @@ where
 
 import Circuit.Logics.Boolean
 import Circuit.Logics.Boolean2Ring
+import Circuit.Logics.Cnf
 import Circuit.Logics.Combine
 import Circuit.Logics.Goedel
 import Circuit.Logics.H3

@@ -50,6 +50,7 @@ library
     Circuit.Logics
     Circuit.Logics.Boolean
     Circuit.Logics.Boolean2Ring
+    Circuit.Logics.Cnf
     Circuit.Logics.Combine
     Circuit.Logics.Goedel
     Circuit.Logics.H3
@@ -69,6 +70,9 @@ executable circuits-logics-axioma
   default-language: GHC2024
   hs-source-dirs: app
   main-is: axioma.hs
+  other-modules:
+    Axioma.Cnf
+
   build-depends:
     base >=4.20 && <5,
     circuits,
