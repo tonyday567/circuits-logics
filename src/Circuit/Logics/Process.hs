@@ -20,8 +20,7 @@ where
 import Circuit.Logics.Combine (latchH3)
 import Circuit.Logics.Goedel (Goedel (..), mkGoedel)
 import Circuit.Logics.H3 (H3 (..))
-import Circuit.Machine (Body (..), MooreT (..), moore)
-import Circuit.Tensor (unConst)
+import Circuit.Machine (Moore (Moore), MooreT (..), moore)
 
 -- | Majority-style judge on @Bool@ votes.
 --
@@ -64,12 +63,12 @@ voteLatchH3 k = moore inject step extract
 
 -- | Running latch over an H3-producing process.
 latchProc :: MooreT (,) (->) a H3 -> MooreT (,) (->) a H3
-latchProc (MooreT (Body i k o)) =
+latchProc (MooreT (Moore i k o)) =
   moore
-    (\a -> let s0 = i a in (s0, unConst (o s0)))
+    (\a -> let s0 = i a in (s0, o s0))
     ( \(s, v) a ->
         let s' = k (s, a)
-            v' = latchH3 v (unConst (o s'))
+            v' = latchH3 v (o s')
          in (s', v')
     )
     snd
